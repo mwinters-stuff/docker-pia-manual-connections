@@ -1,0 +1,21 @@
+version: "2.1"
+services:
+  pia:
+    build:
+      context: ./
+    container_name: pia-wireguard
+    cap_add:
+      - NET_ADMIN
+      - SYS_MODULE
+    env_file: pia.env
+    privileged: true
+    sysctls:
+      - net.ipv4.conf.all.src_valid_mark=1
+
+  console:
+    image: alpine
+    depends_on: 
+      - pia
+    network_mode: "service:pia"
+
+        
